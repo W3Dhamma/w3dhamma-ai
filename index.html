@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>W3Dhamma AI Chatbot</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>W3Dhamma AI Chatbot</h1>
+    <div id="chatbox">
+      <div id="conversation"></div>
+    </div>
+    <input type="text" id="userInput" placeholder="Ask a question...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput").value;
+      const conversation = document.getElementById("conversation");
+
+      fetch('https://your-netlify-app.netlify.app/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: input })
+      })
+      .then(response => response.json())
+      .then(data => {
+        conversation.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
+        conversation.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
+        document.getElementById("userInput").value = '';
+      });
+    }
+  </script>
+</body>
+</html>
